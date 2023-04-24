@@ -41,6 +41,24 @@
 			"from_port": 0,
 			"to": "switch",
 			"to_port": 1
+		},
+		{
+			"from": "math",
+			"from_port": 0,
+			"to": "gen_outputs",
+			"to_port": 1
+		},
+		{
+			"from": "gen_inputs",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 1
+		},
+		{
+			"from": "math_2",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 0
 		}
 	],
 	"label": "Normal Map",
@@ -115,6 +133,10 @@
 						{
 							"node": "edge_detect_1",
 							"widget": "amount"
+						},
+						{
+							"node": "math",
+							"widget": "default_in2"
 						}
 					],
 					"longdesc": "The strength of the normal map filter",
@@ -156,8 +178,8 @@
 		{
 			"name": "gen_outputs",
 			"node_position": {
-				"x": -445.663818,
-				"y": 75.047363
+				"x": -414.663818,
+				"y": 77.047363
 			},
 			"parameters": {
 
@@ -167,8 +189,14 @@
 					"group_size": 0,
 					"longdesc": "Shows the generated normal map",
 					"name": "Normal",
-					"shortdesc": "Output",
+					"shortdesc": "Normal",
 					"type": "rgb"
+				},
+				{
+					"longdesc": "The corresponding depth map ready to be connected to the material",
+					"name": "Depth",
+					"shortdesc": "Depth",
+					"type": "f"
 				}
 			],
 			"seed": -6314,
@@ -177,8 +205,8 @@
 		{
 			"name": "gen_inputs",
 			"node_position": {
-				"x": -1094.910156,
-				"y": 74.047363
+				"x": -1119.910156,
+				"y": 81.047363
 			},
 			"parameters": {
 
@@ -351,6 +379,38 @@
 			},
 			"seed_int": 0,
 			"type": "pack_2x16_to_1x32"
+		},
+		{
+			"name": "math",
+			"node_position": {
+				"x": -581.165161,
+				"y": 334.908386
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 1,
+				"op": 2
+			},
+			"seed": 0,
+			"seed_locked": false,
+			"type": "math"
+		},
+		{
+			"name": "math_2",
+			"node_position": {
+				"x": -808.220703,
+				"y": 334.130615
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 1,
+				"default_in2": 1,
+				"op": 1
+			},
+			"seed": 0,
+			"seed_locked": false,
+			"type": "math"
 		}
 	],
 	"parameters": {
