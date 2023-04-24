@@ -64,6 +64,9 @@ func _ready() -> void:
 	yield(get_tree(), "idle_frame")
 	sun.shadow_enabled = mm_globals.get_config("ui_3d_preview_sun_shadow")
 
+	if mm_globals.config.has_section_key("path", "mesh"):
+		do_load_custom_mesh(mm_globals.config.get_value("path", "mesh"))
+
 func create_menu_model_list(menu : PopupMenu) -> void:
 	menu.clear()
 	for i in objects.get_child_count():
@@ -102,7 +105,7 @@ func _on_Model_item_selected(id) -> void:
 		dialog.mode = FileDialog.MODE_OPEN_FILE
 		dialog.add_filter("*.obj;OBJ model File")
 		if mm_globals.config.has_section_key("path", "mesh"):
-			dialog.current_dir = mm_globals.config.get_value("path", "mesh")
+			dialog.current_dir = mm_globals.config.get_value("path", "mesh").get_base_dir()
 		var files = dialog.select_files()
 		while files is GDScriptFunctionState:
 			files = yield(files, "completed")
@@ -112,10 +115,10 @@ func _on_Model_item_selected(id) -> void:
 		select_object(id)
 
 func do_load_custom_mesh(file_path) -> void:
-	mm_globals.config.set_value("path", "mesh", file_path.get_base_dir())
 	var id = objects.get_child_count()-1
 	var mesh = $ObjLoader.load_obj_file(file_path)
 	if mesh != null:
+		mm_globals.config.set_value("path", "mesh", file_path)
 		var object : MeshInstance = objects.get_child(id)
 		object.mesh = mesh
 		select_object(id)
